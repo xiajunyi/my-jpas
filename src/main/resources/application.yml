@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+mybatis-plus:
+  # MyBatis Mapper所对应的XML文件位置
+  mapper-locations: classpath*:/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mapper:
+#  # MyBatis Mapper所对应的XML文件位置
+#  mapper-locations: classpath*:/mapper/xml/*.xml
+##  configuration:
+##    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://al.xiajunyi.com:3306/xhh?serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: mysql
+  jpa:
+    hibernate:
+      ddl-auto: none

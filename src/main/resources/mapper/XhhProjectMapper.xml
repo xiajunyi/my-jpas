@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjy.study.myjpas.mapper.XhhProjectMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xjy.study.myjpas.entity.mybatis.XhhProject">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="project_describe" property="projectDescribe" />
+        <result column="creator_id" property="creatorId" />
+        <result column="updater_id" property="updaterId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, project_describe, creator_id, updater_id, create_time, update_time, is_delete
+    </sql>
+
+    <!-- 按照用户查询项目 -->
+    <select id="selectByUserId" resultType="com.xjy.study.myjpas.entity.mybatis.XhhProject" parameterType="string">
+        select * from xhh_project where user_id = #{userId};
+    </select>
+
+    <!-- 按照用户查询项目包含地址, 纯resultMap中关联-->
+    <select id="selectByUserId2" resultMap="rs22" parameterType="string">
+        select a.*, b.address as address, b.plan_times as plan_times, b.id as address_id, b.project_id as project_id
+        from xhh_project a
+                 left join xhh_project_address b on a.id = b.project_id
+        where a.user_id = #{userId}
+    </select>
+    <resultMap id="rs22" type="com.xjy.study.myjpas.dto.XhhProjectContainsAddressDto" extends="BaseResultMap">
+        <collection property="xhhProjectAddressList" ofType="com.xjy.study.myjpas.entity.mybatis.XhhProjectAddress">
+            <id property="id" column="address_id"></id>
+        </collection>
+    </resultMap>
+
+
+    <!-- 按照用户查询项目包含地址，resultMap嵌套select -->
+    <select id="selectByUserId3" resultMap="rs3">
+        select a.* from xhh_project a where a.user_id = #{userId}
+    </select>
+
+    <resultMap id="rs3" type="com.xjy.study.myjpas.dto.XhhProjectContainsAddressDto">
+        <id column="id" property="id"></id>
+        <collection property="xhhProjectAddressList" column="id" select="ss3"></collection>
+    </resultMap>
+
+    <select id="ss3" resultType="com.xjy.study.myjpas.entity.mybatis.XhhProjectAddress">
+        select * from xhh_project_address where project_id = #{ss}
+    </select>
+
+    <select id="selectByCreatorIdLike" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from xhh_project_contains_address_dto
+        where
+        creator_id like #{creatorId,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

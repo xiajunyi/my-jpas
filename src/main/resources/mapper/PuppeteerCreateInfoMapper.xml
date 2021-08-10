@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjy.study.myjpas.mapper.PuppeteerCreateInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xjy.study.myjpas.entity.mybatis.PuppeteerCreateInfo">
+        <id column="id" property="id" />
+        <result column="puppeteer_id" property="puppeteerId" />
+        <result column="url" property="url" />
+        <result column="oss_url" property="ossUrl" />
+        <result column="type" property="type" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flag" property="delFlag" />
+        <result column="message" property="message" />
+        <result column="md5" property="md5" />
+        <result column="retry" property="retry" />
+        <result column="full_url" property="fullUrl" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, puppeteer_id, url, oss_url, type, status, create_time, update_time, del_flag, message, md5, retry, full_url, remark
+    </sql>
+
+</mapper>

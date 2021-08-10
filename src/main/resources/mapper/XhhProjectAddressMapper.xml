@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjy.study.myjpas.mapper.XhhProjectAddressMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xjy.study.myjpas.entity.mybatis.XhhProjectAddress">
+        <id column="id" property="id" />
+        <result column="project_id" property="projectId" />
+        <result column="address" property="address" />
+        <result column="creator_id" property="creatorId" />
+        <result column="updater_id" property="updaterId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="is_delete" property="isDelete" />
+        <result column="plan_times" property="planTimes" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, project_id, address, creator_id, updater_id, create_time, update_time, is_delete, plan_times
+    </sql>
+
+
+    <select id="selectByAddressId" resultMap="rs1" parameterType="string">
+            select a.*, b.project_describe, b.user_id from xhh_project_address a, xhh_project b where a.id = #{addressId} and a.project_id = b.id;
+    </select>
+
+    <resultMap id="rs1" type="com.xjy.study.myjpas.dto.XhhProjectAddressContainsProjectDto" autoMapping="true">
+        <id column="id" property="id"></id>
+        <association property="xhhProject" column="user_id" javaType="com.xjy.study.myjpas.entity.mybatis.XhhProject" autoMapping="true">
+            <id column="project_id" property="id"></id>
+        </association>
+    </resultMap>
+
+    <select id="selectByAddressId2" resultMap="rs2" parameterType="string">
+        select a.* from xhh_project_address a where a.id = #{addressId};
+    </select>
+
+    <resultMap id="rs2" type="com.xjy.study.myjpas.dto.XhhProjectAddressContainsProjectDto">
+        <id column="id" property="id"></id>
+        <id column="project_id" property="projectId"></id>
+        <association property="xhhProject" column="project_id" select="ss2" javaType="com.xjy.study.myjpas.entity.mybatis.XhhProject"></association>
+    </resultMap>
+
+    <select id="ss2" parameterType="string" resultType="com.xjy.study.myjpas.entity.mybatis.XhhProject">
+        select * from xhh_project where id = #{sss};
+    </select>
+
+</mapper>
